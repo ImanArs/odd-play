@@ -1,11 +1,12 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useMemo } from "react"
 import { BackButton } from "./back-button"
 import { Modal } from "./modal"
 import { Countdown } from "./countdown"
 import { Heart, Trophy, RotateCcw } from "lucide-react"
 import * as LucideIcons from "lucide-react"
+import { getLevelConfig, TOTAL_LEVELS } from "./sports-icon-registry"
 
 interface GameLevelProps {
   level: number
@@ -21,51 +22,18 @@ interface Stage {
   wrongIcons: string[]
 }
 
-const SPORTS_CATEGORIES = [
-  {
-    category: "Football",
-    image: "/football-field-with-goal-posts.png",
-    correctIcons: ["CircleDot", "Target", "Zap"],
-    wrongIcons: ["Anchor", "Book", "Coffee", "Flower", "Guitar", "Hammer", "Key"],
-  },
-  {
-    category: "Basketball",
-    image: "/basketball-court-with-hoop.png",
-    correctIcons: ["Circle", "ArrowUp", "Star"],
-    wrongIcons: ["Apple", "Bell", "Camera", "Diamond", "Eye", "Fish", "Globe"],
-  },
-  {
-    category: "Tennis",
-    image: "/tennis-court-with-net.png",
-    correctIcons: ["Disc", "ArrowRight", "Crosshair"],
-    wrongIcons: ["Banana", "Cloud", "Drum", "Feather", "Heart", "Ice", "Leaf"],
-  },
-  {
-    category: "Swimming",
-    image: "/swimming-pool-lanes.png",
-    correctIcons: ["Waves", "Droplets", "Wind"],
-    wrongIcons: ["Cake", "Door", "Egg", "Flag", "Gem", "Hat", "Ink"],
-  },
-  {
-    category: "Running",
-    image: "/running-track-with-lanes.png",
-    correctIcons: ["Footprints", "Timer", "Gauge"],
-    wrongIcons: ["Brush", "Candle", "Dice", "Envelope", "Fire", "Gift", "House"],
-  },
-]
-
 export function GameLevel({ level, onComplete, onFailed, onBack }: GameLevelProps) {
   const [lives, setLives] = useState(3)
-  const [currentStage, setCurrentStage] = useState(0)
   const [selectedIcons, setSelectedIcons] = useState<string[]>([])
   const [showCountdown, setShowCountdown] = useState(true)
   const [showGameOver, setShowGameOver] = useState(false)
   const [showSuccess, setShowSuccess] = useState(false)
-  const [wrongAnswer, setWrongAnswer] = useState(false)
+  const [showRedOverlay, setShowRedOverlay] = useState(false)
   const [gameStarted, setGameStarted] = useState(false)
+  const [gridIcons, setGridIcons] = useState<string[]>([])
 
-  const totalStages = Math.min(5, level) // More stages for higher levels
-  const stages: Stage[] = SPORTS_CATEGORIES.slice(0, totalStages)
+  // Single unique level config per level (1..30)
+  const levelConfig = useMemo(() => getLevelConfig(level), [level])
 
   useEffect(() => {
     if (showCountdown) {
@@ -77,34 +45,49 @@ export function GameLevel({ level, onComplete, onFailed, onBack }: GameLevelProp
     }
   }, [showCountdown])
 
+  // Build a stable, per-level icon grid (prevents reshuffling on every click)
+  useEffect(() => {
+    const current = levelConfig
+    const pool = [...current.correctIcons, ...current.wrongIcons]
+    // Ensure we have up to 10 icons, shuffle deterministically by level for full stability
+    const take = pool.slice(0, 10)
+
+    function mulberry32(a: number) {
+      return function () {
+        let t = (a += 0x6d2b79f5)
+        t = Math.imul(t ^ (t >>> 15), t | 1)
+        t ^= t + Math.imul(t ^ (t >>> 7), t | 61)
+        return ((t ^ (t >>> 14)) >>> 0) / 4294967296
+      }
+    }
+
+    const rand = mulberry32(level)
+    for (let i = take.length - 1; i > 0; i--) {
+      const j = Math.floor(rand() * (i + 1))
+      ;[take[i], take[j]] = [take[j], take[i]]
+    }
+
+    setGridIcons(take)
+  }, [levelConfig])
+
   const handleIconClick = (iconName: string) => {
     if (!gameStarted) return
 
-    const currentStageData = stages[currentStage]
-    const isCorrect = currentStageData.correctIcons.includes(iconName)
+    const isCorrect = levelConfig.correctIcons.includes(iconName)
 
     if (isCorrect) {
       const newSelected = [...selectedIcons, iconName]
       setSelectedIcons(newSelected)
 
-      // Check if all correct icons for this stage are selected
-      if (newSelected.length === currentStageData.correctIcons.length) {
-        // Stage completed
-        if (currentStage + 1 >= totalStages) {
-          // Level completed!
-          setShowSuccess(true)
-        } else {
-          // Move to next stage
-          setTimeout(() => {
-            setCurrentStage(currentStage + 1)
-            setSelectedIcons([])
-          }, 1000)
-        }
+      // Check if all correct icons for this level are selected
+      if (newSelected.length === levelConfig.correctIcons.length) {
+        // Level completed!
+        setShowSuccess(true)
       }
     } else {
-      // Wrong answer
-      setWrongAnswer(true)
-      setTimeout(() => setWrongAnswer(false), 500)
+      // Wrong answer: show red full-screen overlay briefly
+      setShowRedOverlay(true)
+      setTimeout(() => setShowRedOverlay(false), 200)
 
       const newLives = lives - 1
       setLives(newLives)
@@ -120,22 +103,20 @@ export function GameLevel({ level, onComplete, onFailed, onBack }: GameLevelProp
     if (!IconComponent) return null
 
     const isSelected = selectedIcons.includes(iconName)
-    const currentStageData = stages[currentStage]
-    const isCorrect = currentStageData?.correctIcons.includes(iconName)
+    const isCorrect = levelConfig?.correctIcons.includes(iconName)
 
     return (
       <button
         key={iconName}
         onClick={() => handleIconClick(iconName)}
         className={`
-          p-4 rounded-2xl border-3 transition-all duration-200
+          p-4 rounded-2xl border-3 transition-colors duration-200
           ${
             isSelected
-              ? "bg-gradient-to-b from-blue-400 to-blue-600 border-blue-700 text-white scale-110"
-              : "bg-gradient-to-b from-white to-gray-100 border-gray-300 text-gray-700 hover:scale-105"
+              ? "bg-gradient-to-b from-blue-400 to-blue-600 border-blue-700 text-white"
+              : "bg-gradient-to-b from-white to-gray-100 border-gray-300 text-gray-700"
           }
-          ${wrongAnswer && !isCorrect ? "animate-pulse bg-red-500" : ""}
-          shadow-lg hover:shadow-xl
+          ${!isSelected ? "hover:shadow-xl" : "shadow-lg"}
         `}
         disabled={isSelected}
       >
@@ -149,17 +130,20 @@ export function GameLevel({ level, onComplete, onFailed, onBack }: GameLevelProp
   }
 
   return (
-    <div
-      className={`min-h-screen relative p-6 pt-20 bg-gradient-to-b from-sky-300 to-sky-200 ${wrongAnswer ? "bg-red-200" : ""} transition-colors duration-300`}
-    >
+    <div className={`min-h-screen relative p-6 pt-20 bg-gradient-to-b from-sky-300 to-sky-200 transition-colors duration-300`}>
       <BackButton onBack={onBack} />
+
+      {/* Wrong answer full-screen red overlay */}
+      {showRedOverlay && (
+        <div className="pointer-events-none fixed inset-0 z-50 bg-red-500/60 animate-in fade-in duration-200" />
+      )}
 
       {/* Game UI */}
       <div className="max-w-md mx-auto">
         {/* Progress and Lives */}
         <div className="flex justify-between items-center mb-6">
           <div className="text-xl font-black text-blue-800">
-            Stage {currentStage + 1}/{totalStages}
+            Level {level}/{TOTAL_LEVELS}
           </div>
           <div className="flex gap-1">
             {Array.from({ length: 3 }, (_, i) => (
@@ -172,25 +156,22 @@ export function GameLevel({ level, onComplete, onFailed, onBack }: GameLevelProp
           </div>
         </div>
 
-        {/* Current Stage */}
-        {stages[currentStage] && (
+        {/* Current Level */}
+        {levelConfig && (
           <div className="cartoon-card p-6 mb-6">
-            <h3 className="text-2xl font-black text-blue-800 text-center mb-4">{stages[currentStage].category}</h3>
+            <h3 className="text-2xl font-black text-blue-800 text-center mb-4">{levelConfig.category}</h3>
             <img
-              src={stages[currentStage].image || "/placeholder.svg"}
-              alt={stages[currentStage].category}
+              src={levelConfig.image || "/placeholder.svg"}
+              alt={levelConfig.category}
               className="w-full h-32 object-cover rounded-2xl mb-4 border-2 border-blue-200"
             />
             <p className="text-lg font-bold text-gray-700 text-center mb-4">
-              Select {stages[currentStage].correctIcons.length} items related to {stages[currentStage].category}
+              Select {levelConfig.correctIcons.length} items related to {levelConfig.category}
             </p>
 
             {/* Icons Grid */}
             <div className="grid grid-cols-5 gap-3">
-              {[...stages[currentStage].correctIcons, ...stages[currentStage].wrongIcons]
-                .sort(() => Math.random() - 0.5)
-                .slice(0, 10)
-                .map((iconName) => renderIcon(iconName))}
+              {gridIcons.map((iconName) => renderIcon(iconName))}
             </div>
           </div>
         )}
