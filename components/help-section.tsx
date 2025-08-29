@@ -1,27 +1,36 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useState } from "react"
-import { BackButton } from "./back-button"
-import { HelpDetail } from "./help-detail"
-import { Heart, Thermometer, Badge as Bandage, AlertTriangle, Phone, Droplets, Shield, Activity } from "lucide-react"
+import { useState } from "react";
+import { BackButton } from "./back-button";
+import { HelpDetail } from "./help-detail";
+import {
+  Heart,
+  Thermometer,
+  Badge as Bandage,
+  AlertTriangle,
+  Phone,
+  Droplets,
+  Shield,
+  Activity,
+} from "lucide-react";
 
 interface HelpSectionProps {
-  onBack: () => void
+  onBack: () => void;
 }
 
 interface FirstAidTip {
-  id: string
-  icon: React.ComponentType<{ size?: number; className?: string }>
-  title: string
-  description: string
+  id: string;
+  icon: React.ComponentType<{ size?: number; className?: string }>;
+  title: string;
+  description: string;
   detailedContent: {
-    image1: string
-    description1: string
-    image2: string
-    description2: string
-  }
+    image1: string;
+    description1: string;
+    image2: string;
+    description2: string;
+  };
 }
 
 const FIRST_AID_TIPS: FirstAidTip[] = [
@@ -29,7 +38,8 @@ const FIRST_AID_TIPS: FirstAidTip[] = [
     id: "cuts-scrapes",
     icon: Bandage,
     title: "Cuts and Scrapes",
-    description: "How to properly clean and bandage minor wounds during sports activities.",
+    description:
+      "How to properly clean and bandage minor wounds during sports activities.",
     detailedContent: {
       image1: "/first-aid-cleaning-wound.png",
       description1:
@@ -43,7 +53,8 @@ const FIRST_AID_TIPS: FirstAidTip[] = [
     id: "sprains-strains",
     icon: Activity,
     title: "Sprains and Strains",
-    description: "RICE method for treating common sports injuries to muscles and joints.",
+    description:
+      "RICE method for treating common sports injuries to muscles and joints.",
     detailedContent: {
       image1: "/first-aid-ice-pack.png",
       description1:
@@ -57,7 +68,8 @@ const FIRST_AID_TIPS: FirstAidTip[] = [
     id: "heat-exhaustion",
     icon: Thermometer,
     title: "Heat Exhaustion",
-    description: "Recognizing and treating heat-related illnesses during outdoor sports.",
+    description:
+      "Recognizing and treating heat-related illnesses during outdoor sports.",
     detailedContent: {
       image1: "/first-aid-cooling-person.png",
       description1:
@@ -71,7 +83,8 @@ const FIRST_AID_TIPS: FirstAidTip[] = [
     id: "head-injuries",
     icon: AlertTriangle,
     title: "Head Injuries",
-    description: "Important steps when dealing with potential concussions or head trauma.",
+    description:
+      "Important steps when dealing with potential concussions or head trauma.",
     detailedContent: {
       image1: "/first-aid-head-injury-assessment.png",
       description1:
@@ -85,7 +98,8 @@ const FIRST_AID_TIPS: FirstAidTip[] = [
     id: "dehydration",
     icon: Droplets,
     title: "Dehydration",
-    description: "Preventing and treating dehydration during physical activities.",
+    description:
+      "Preventing and treating dehydration during physical activities.",
     detailedContent: {
       image1: "/first-aid-water-intake.png",
       description1:
@@ -127,7 +141,8 @@ const FIRST_AID_TIPS: FirstAidTip[] = [
     id: "cardiac-emergency",
     icon: Heart,
     title: "Cardiac Emergency",
-    description: "Recognizing and responding to heart-related emergencies during sports.",
+    description:
+      "Recognizing and responding to heart-related emergencies during sports.",
     detailedContent: {
       image1: "/first-aid-cpr-position.png",
       description1:
@@ -137,34 +152,38 @@ const FIRST_AID_TIPS: FirstAidTip[] = [
         "If an AED (Automated External Defibrillator) is available, use it as soon as possible. Follow the device's voice prompts. Continue CPR until emergency services arrive or the person starts breathing normally.",
     },
   },
-]
+];
 
 export function HelpSection({ onBack }: HelpSectionProps) {
-  const [selectedTip, setSelectedTip] = useState<FirstAidTip | null>(null)
+  const [selectedTip, setSelectedTip] = useState<FirstAidTip | null>(null);
 
   if (selectedTip) {
-    return <HelpDetail tip={selectedTip} onBack={() => setSelectedTip(null)} />
+    return <HelpDetail tip={selectedTip} onBack={() => setSelectedTip(null)} />;
   }
 
   return (
-    <div className="min-h-screen relative p-6 pt-20 bg-gradient-to-b from-green-300 to-green-200">
+    <div className="min-h-screen relative p-6 pt-20 bg-gradient-to-b from-blue-400 to-blue-200">
       <BackButton onBack={onBack} />
 
       <div className="text-center mb-8">
-        <h2 className="text-5xl font-black text-green-800 mb-2 drop-shadow-lg">First Aid Help</h2>
-        <p className="text-xl font-bold text-green-600 drop-shadow-md">Essential sports safety tips</p>
+        <h2 className="text-5xl font-black text-blue-800 mb-2 drop-shadow-lg">
+          First Aid Help
+        </h2>
+        <p className="text-xl font-bold text-blue-600 drop-shadow-md">
+          Essential sports safety tips
+        </p>
       </div>
 
       <div className="max-w-md mx-auto space-y-4">
         {FIRST_AID_TIPS.map((tip, index) => {
-          const Icon = tip.icon
+          const Icon = tip.icon;
           return (
             <button
               key={tip.id}
               onClick={() => setSelectedTip(tip)}
               className="
-                w-full p-4 rounded-2xl border-4 border-green-300
-                bg-gradient-to-b from-white to-green-50
+                w-full p-4 rounded-2xl border-4 border-blue-300
+                bg-gradient-to-b from-white to-blue-50
                 shadow-xl hover:shadow-2xl
                 hover:scale-105 active:scale-95
                 transition-all duration-300 ease-out
@@ -180,8 +199,8 @@ export function HelpSection({ onBack }: HelpSectionProps) {
                 <div
                   className="
                   p-3 rounded-xl 
-                  bg-gradient-to-b from-green-400 to-green-600 
-                  border-2 border-green-700
+                  bg-gradient-to-b from-blue-400 to-blue-600 
+                  border-2 border-blue-700
                   shadow-lg
                 "
                 >
@@ -189,21 +208,25 @@ export function HelpSection({ onBack }: HelpSectionProps) {
                 </div>
 
                 <div className="flex-1">
-                  <h3 className="text-xl font-black text-green-800 mb-2">{tip.title}</h3>
-                  <p className="text-sm font-bold text-green-700 leading-relaxed">{tip.description}</p>
+                  <h3 className="text-xl font-black text-blue-800 mb-2">
+                    {tip.title}
+                  </h3>
+                  <p className="text-sm font-bold text-blue-700 leading-relaxed">
+                    {tip.description}
+                  </p>
                 </div>
               </div>
             </button>
-          )
+          );
         })}
       </div>
 
       {/* Bottom note */}
       <div className="mt-8 text-center">
-        <p className="text-sm font-bold text-green-600/70 max-w-sm mx-auto">
+        <p className="text-sm font-bold text-blue-600/70 max-w-sm mx-auto">
           Tap any topic to learn more about sports first aid
         </p>
       </div>
     </div>
-  )
+  );
 }
