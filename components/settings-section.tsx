@@ -1,31 +1,38 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useState } from "react"
-import { BackButton } from "./back-button"
-import { Modal } from "./modal"
-import { Shield, FileText, HelpCircle, Share2, BarChart3, RotateCcw } from "lucide-react"
+import { useState } from "react";
+import { BackButton } from "./back-button";
+import { Modal } from "./modal";
+import {
+  Shield,
+  FileText,
+  HelpCircle,
+  Share2,
+  BarChart3,
+  RotateCcw,
+} from "lucide-react";
 
 interface GameStats {
-  totalGamesPlayed: number
-  totalLevelsCompleted: number
-  totalQuizzesCompleted: number
-  bestQuizScore: number
-  timeSpentPlaying: number
+  totalGamesPlayed: number;
+  totalLevelsCompleted: number;
+  totalQuizzesCompleted: number;
+  bestQuizScore: number;
+  timeSpentPlaying: number;
 }
 
 interface SettingsItem {
-  id: string
-  icon: React.ComponentType<{ size?: number; className?: string }>
-  title: string
-  content: string
+  id: string;
+  icon: React.ComponentType<{ size?: number; className?: string }>;
+  title: string;
+  content: string;
 }
 
 interface SettingsSectionProps {
-  onBack: () => void
-  gameStats: GameStats
-  onResetProgress: () => void
+  onBack: () => void;
+  gameStats: GameStats;
+  onResetProgress: () => void;
 }
 
 const SETTINGS_ITEMS: SettingsItem[] = [
@@ -157,25 +164,33 @@ const SETTINGS_ITEMS: SettingsItem[] = [
       </div>
     `,
   },
-]
+];
 
-export function SettingsSection({ onBack, gameStats, onResetProgress }: SettingsSectionProps) {
-  const [selectedItem, setSelectedItem] = useState<SettingsItem | null>(null)
-  const [showStats, setShowStats] = useState(false)
-  const [showResetModal, setShowResetModal] = useState(false)
+export function SettingsSection({
+  onBack,
+  gameStats,
+  onResetProgress,
+}: SettingsSectionProps) {
+  const [selectedItem, setSelectedItem] = useState<SettingsItem | null>(null);
+  const [showStats, setShowStats] = useState(false);
+  const [showResetModal, setShowResetModal] = useState(false);
 
   const handleResetConfirm = () => {
-    onResetProgress()
-    setShowResetModal(false)
-  }
+    onResetProgress();
+    setShowResetModal(false);
+  };
 
   return (
     <div className="min-h-screen relative p-6 pt-20 bg-gradient-to-b from-gray-300 to-gray-200">
       <BackButton onBack={onBack} />
 
       <div className="text-center mb-8">
-        <h2 className="text-6xl font-black text-gray-800 mb-2 drop-shadow-lg">OddPlay</h2>
-        <p className="text-xl font-bold text-gray-600 drop-shadow-md">Settings & Information</p>
+        <h2 className="text-6xl font-black text-gray-800 mb-2 drop-shadow-lg">
+          OddPlay
+        </h2>
+        <p className="text-xl font-bold text-gray-600 drop-shadow-md">
+          Settings & Information
+        </p>
       </div>
 
       <div className="max-w-sm mx-auto space-y-4">
@@ -198,7 +213,7 @@ export function SettingsSection({ onBack, gameStats, onResetProgress }: Settings
         </button>
 
         {SETTINGS_ITEMS.map((item, index) => {
-          const Icon = item.icon
+          const Icon = item.icon;
           return (
             <button
               key={item.id}
@@ -208,7 +223,7 @@ export function SettingsSection({ onBack, gameStats, onResetProgress }: Settings
                 bg-gradient-to-b from-white to-gray-100
                 shadow-xl hover:shadow-2xl
                 hover:scale-105 active:scale-95
-                transition-all duration-300 ease-out
+                transition-all ease-out
                 flex items-center gap-4
                 animate-in slide-in-from-top-4 fade-in duration-500
               "
@@ -228,9 +243,11 @@ export function SettingsSection({ onBack, gameStats, onResetProgress }: Settings
                 <Icon size={24} className="text-white" />
               </div>
 
-              <span className="text-xl font-black text-gray-800">{item.title}</span>
+              <span className="text-xl font-black text-gray-800">
+                {item.title}
+              </span>
             </button>
-          )
+          );
         })}
 
         <button
@@ -248,35 +265,56 @@ export function SettingsSection({ onBack, gameStats, onResetProgress }: Settings
           <div className="p-3 rounded-xl bg-gradient-to-b from-red-400 to-red-600 border-2 border-red-700 shadow-lg flex-shrink-0">
             <RotateCcw size={24} className="text-white" />
           </div>
-          <span className="text-xl font-black text-red-800">Reset Progress</span>
+          <span className="text-xl font-black text-red-800">
+            Reset Progress
+          </span>
         </button>
       </div>
 
-      <Modal isOpen={showStats} onClose={() => setShowStats(false)} title="Your Statistics">
+      <Modal
+        isOpen={showStats}
+        onClose={() => setShowStats(false)}
+        title="Your Statistics"
+      >
         <div className="space-y-4">
           <div className="bg-blue-50 p-4 rounded-2xl border-2 border-blue-200">
             <h4 className="font-black text-blue-800 mb-2">Games Played</h4>
-            <p className="text-2xl font-black text-blue-600">{gameStats.totalGamesPlayed}</p>
+            <p className="text-2xl font-black text-blue-600">
+              {gameStats.totalGamesPlayed}
+            </p>
           </div>
           <div className="bg-green-50 p-4 rounded-2xl border-2 border-green-200">
             <h4 className="font-black text-green-800 mb-2">Levels Completed</h4>
-            <p className="text-2xl font-black text-green-600">{gameStats.totalLevelsCompleted}</p>
+            <p className="text-2xl font-black text-green-600">
+              {gameStats.totalLevelsCompleted}
+            </p>
           </div>
           <div className="bg-purple-50 p-4 rounded-2xl border-2 border-purple-200">
-            <h4 className="font-black text-purple-800 mb-2">Quizzes Completed</h4>
-            <p className="text-2xl font-black text-purple-600">{gameStats.totalQuizzesCompleted}</p>
+            <h4 className="font-black text-purple-800 mb-2">
+              Quizzes Completed
+            </h4>
+            <p className="text-2xl font-black text-purple-600">
+              {gameStats.totalQuizzesCompleted}
+            </p>
           </div>
           <div className="bg-yellow-50 p-4 rounded-2xl border-2 border-yellow-200">
             <h4 className="font-black text-yellow-800 mb-2">Best Quiz Score</h4>
-            <p className="text-2xl font-black text-yellow-600">{gameStats.bestQuizScore}/15</p>
+            <p className="text-2xl font-black text-yellow-600">
+              {gameStats.bestQuizScore}/15
+            </p>
           </div>
         </div>
       </Modal>
 
-      <Modal isOpen={showResetModal} onClose={() => setShowResetModal(false)} title="Reset All Progress?">
+      <Modal
+        isOpen={showResetModal}
+        onClose={() => setShowResetModal(false)}
+        title="Reset All Progress?"
+      >
         <div className="text-center">
           <p className="text-lg font-bold text-gray-700 mb-6">
-            This will permanently delete all your game progress and statistics. This action cannot be undone!
+            This will permanently delete all your game progress and statistics.
+            This action cannot be undone!
           </p>
           <div className="flex gap-3 justify-center">
             <button
@@ -311,12 +349,16 @@ export function SettingsSection({ onBack, gameStats, onResetProgress }: Settings
 
       {/* Information Modal */}
       {selectedItem && (
-        <Modal isOpen={true} onClose={() => setSelectedItem(null)} title={selectedItem.title}>
+        <Modal
+          isOpen={true}
+          onClose={() => setSelectedItem(null)}
+          title={selectedItem.title}
+        >
           <div className="max-h-96 overflow-y-auto">
             <div dangerouslySetInnerHTML={{ __html: selectedItem.content }} />
           </div>
         </Modal>
       )}
     </div>
-  )
+  );
 }
