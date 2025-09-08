@@ -41,26 +41,14 @@ const SETTINGS_ITEMS: SettingsItem[] = [
     icon: Shield,
     title: "Privacy Policy",
     content: `
-      <div style="font-family: Arial, sans-serif; line-height: 1.6; padding: 20px;">
-        <h2>Privacy Policy for OddPlay</h2>
-        <p><strong>Last updated:</strong> ${new Date().toLocaleDateString()}</p>
-        
-        <h3>Information We Collect</h3>
-        <p>OddPlay is designed with privacy in mind. We do not collect, store, or transmit any personal information from users. All game progress and data is stored locally on your device.</p>
-        
-        <h3>Data Storage</h3>
-        <p>• Game progress and scores are saved locally on your device</p>
-        <p>• No personal information is collected or shared</p>
-        <p>• No user accounts or registration required</p>
-        
-        <h3>Third-Party Services</h3>
-        <p>OddPlay does not integrate with any third-party analytics or advertising services that would collect user data.</p>
-        
-        <h3>Children's Privacy</h3>
-        <p>Our app is safe for children and does not collect any information from users of any age.</p>
-        
-        <h3>Contact Us</h3>
-        <p>If you have questions about this Privacy Policy, please contact us through the Support section.</p>
+      <div style="padding: 0; height: 400px;">
+        <iframe 
+          src="https://www.privacypolicies.com/live/6b0d7b44-1761-472f-88bd-a2d77827e7e6" 
+          title="Privacy Policy Placeholder"
+          style="width: 100%; height: 100%; border: 0; border-radius: 12px;"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen
+        ></iframe>
       </div>
     `,
   },
@@ -69,29 +57,14 @@ const SETTINGS_ITEMS: SettingsItem[] = [
     icon: FileText,
     title: "Terms of Use",
     content: `
-      <div style="font-family: Arial, sans-serif; line-height: 1.6; padding: 20px;">
-        <h2>Terms of Use for OddPlay</h2>
-        <p><strong>Last updated:</strong> ${new Date().toLocaleDateString()}</p>
-        
-        <h3>Acceptance of Terms</h3>
-        <p>By using OddPlay, you agree to these Terms of Use. If you do not agree, please do not use the app.</p>
-        
-        <h3>Use of the App</h3>
-        <p>• OddPlay is provided for entertainment and educational purposes</p>
-        <p>• You may use the app for personal, non-commercial purposes</p>
-        <p>• Do not attempt to reverse engineer or modify the app</p>
-        
-        <h3>Content and Intellectual Property</h3>
-        <p>All content in OddPlay, including games, images, and text, is owned by the app creators and protected by copyright laws.</p>
-        
-        <h3>Disclaimer</h3>
-        <p>The first aid information provided is for educational purposes only and should not replace professional medical advice. Always consult healthcare professionals for medical emergencies.</p>
-        
-        <h3>Limitation of Liability</h3>
-        <p>OddPlay is provided "as is" without warranties. We are not liable for any damages arising from use of the app.</p>
-        
-        <h3>Changes to Terms</h3>
-        <p>We may update these terms occasionally. Continued use of the app constitutes acceptance of any changes.</p>
+      <div style="padding: 0; height: 400px;">
+        <iframe 
+          src="https://www.privacypolicies.com/live/caf87e84-2955-47ca-8d18-6f74dcf5d73c" 
+          title="Terms of Use Placeholder"
+          style="width: 100%; height: 100%; border: 0; border-radius: 12px;"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen
+        ></iframe>
       </div>
     `,
   },
@@ -100,33 +73,14 @@ const SETTINGS_ITEMS: SettingsItem[] = [
     icon: HelpCircle,
     title: "Support",
     content: `
-      <div style="font-family: Arial, sans-serif; line-height: 1.6; padding: 20px;">
-        <h2>OddPlay Support</h2>
-        
-        <h3>How to Play</h3>
-        <p><strong>Play Section:</strong> Complete levels by matching sports-related icons. You have 3 lives per level. Select the correct icons that match the sport category shown.</p>
-        
-        <p><strong>Quiz Section:</strong> Answer 15 sports questions within 10 seconds each. One wrong answer ends the game!</p>
-        
-        <p><strong>Help Section:</strong> Learn important first aid tips for sports activities. Tap any topic for detailed instructions.</p>
-        
-        <h3>Troubleshooting</h3>
-        <p><strong>Game not loading:</strong> Try refreshing the app or restarting your device.</p>
-        <p><strong>Progress lost:</strong> Game progress is saved locally. Clearing browser data will reset progress.</p>
-        <p><strong>Performance issues:</strong> Close other apps to free up memory.</p>
-        
-        <h3>Frequently Asked Questions</h3>
-        <p><strong>Q: How do I unlock new levels?</strong><br>
-        A: Complete the current level to unlock the next one. You must finish levels in order.</p>
-        
-        <p><strong>Q: Can I skip difficult levels?</strong><br>
-        A: No, levels must be completed in sequence to maintain the learning progression.</p>
-        
-        <p><strong>Q: Is the first aid information accurate?</strong><br>
-        A: The information is educational and based on general first aid principles, but always consult medical professionals for real emergencies.</p>
-        
-        <h3>Contact Information</h3>
-        <p>For additional support, feedback, or suggestions, please reach out through your device's app store review system.</p>
+      <div style="padding: 0; height: 400px;">
+        <iframe 
+          src="https://au22512i.forms.app/support-contact-form" 
+          title="Support Placeholder"
+          style="width: 100%; height: 100%; border: 0; border-radius: 12px;"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen
+        ></iframe>
       </div>
     `,
   },
@@ -136,28 +90,20 @@ const SETTINGS_ITEMS: SettingsItem[] = [
     title: "Share",
     content: `
       <div style="font-family: Arial, sans-serif; line-height: 1.6; padding: 20px; text-align: center;">
-        <h2>Share OddPlay</h2>
-        
-        <p style="font-size: 18px; margin: 20px 0;">Help others discover the fun of sports learning!</p>
-        
-        <div style="background: #f0f8ff; padding: 20px; border-radius: 10px; margin: 20px 0;">
-          <h3>🏆 OddPlay - Sports Fun & Learning</h3>
-          <p>Test your sports knowledge with fun quizzes and learn essential first aid tips for athletic activities!</p>
-          
-          <p><strong>Features:</strong></p>
-          <p>✅ 30 challenging levels of sports icon matching</p>
-          <p>✅ 15-question sports knowledge quiz</p>
-          <p>✅ Comprehensive first aid guide for sports</p>
-          <p>✅ Kid-friendly and educational</p>
+        <div style="margin: 10px 0 24px;">
+          <a 
+            href="https://apps.apple.com/us/app/oddplay/id6752245240" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            style="display:inline-block; padding:12px 16px; background:#0070f3; color:#fff; border-radius:10px; text-decoration:none; font-weight:700;"
+          >
+            Open in App Store
+          </a>
+          <div style="margin-top:10px; color:#444; font-size:14px;">
+            Or share this link: <br/>
+            <span style="word-break: break-all;">https://apps.apple.com/us/app/oddplay/id6752245240</span>
+          </div>
         </div>
-        
-        <h3>Share Methods</h3>
-        <p>Copy the text above and share it with friends and family through:</p>
-        <p>📱 Text messages</p>
-        <p>📧 Email</p>
-        <p>📱 Social media</p>
-        <p>💬 Messaging apps</p>
-        
         <div style="background: #fff3cd; padding: 15px; border-radius: 8px; margin-top: 20px;">
           <p><strong>Tip:</strong> OddPlay is perfect for families, schools, and sports teams who want to combine fun with learning!</p>
         </div>
